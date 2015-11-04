@@ -1,6 +1,6 @@
 % Load clean data from Matlab data (cleandata_students.mat)
-% x: Nx45 array, where N = #examples, 45 represents facial action units
-% y: Nx1 vector, representing labels of corresponding examples
+%   x: Nx45 array, where N = #examples, 45 represents facial action units
+%   y: Nx1 vector, representing labels of corresponding examples
 
 function[tree] = decision_tree(examples_matrix, ...
                      attributes_vector, binary_targets)
@@ -27,17 +27,24 @@ else
     tree.op = best_attribute;
     tree.class = [];
     tree.kids = {};
-    %tree.kids(1) = left;
-    %tree.kids(2) = right;
-    
+   
+    % Going to test best_attribute; remove it from the attributes_vector
     attributes_vector(attributes_vector == best_attribute) = [];
     
     for value_attribute = 0:1
+        % Extracts the rows in the example matrix as examples_i which has
+        %   value of best_attribute as value_attribute (0 or 1)
         indices = (examples_matrix(:, best_attribute) == value_attribute);
         examples_i = examples_matrix(indices, :);
+        
+        % Contains the classification (yes or no) of emotion in 
+        %   row of examples.
         binary_targets_i = binary_targets(indices);
         
-        if (size(examples_i, 1) == 0)
+        % If there is no example that has a particular value_attribute
+        %   i.e. all examples have a particular value for the attribute.
+        %if (size(examples_i, 1) == 0)
+        if isempty(examples_i)
             tree = [];
             tree.op = [];
             tree.kids = [];
