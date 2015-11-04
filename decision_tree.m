@@ -25,8 +25,9 @@ else best_attribute = choose_best_decision_attribute(examples_matrix, ...
                           attributes_vector, binary_targets)
     tree.op = best_attribute;
     tree.class = [];
-    tree.kids = [0 1];
-    for value = 1:2
+    %tree.kids(1) = left;
+    %tree.kids(2) = right;
+    for value_attribute = 0:1
         
     end
 end
