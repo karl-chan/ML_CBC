@@ -1,3 +1,6 @@
+% Calculates the information gain (IG(examples, attribute))
+% Examples
+%   information_gain([1 0; 0 1], 1, [1, 0]) = 1
 function [ ret ] = information_gain( examples, attribute, binary_targets )
 
     zero_indices = (examples(:, attribute) == 0);
@@ -6,7 +9,7 @@ function [ ret ] = information_gain( examples, attribute, binary_targets )
     total_count = size(examples, 1);
     one_count = sum(one_indices);
     zero_count = sum(zero_indices);
-    
+        
     ret = entropy(binary_targets) - (one_count / total_count) * entropy(binary_targets(one_indices)) - (zero_count / total_count) * entropy(binary_targets(zero_indices));
 end
 
