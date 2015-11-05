@@ -4,10 +4,12 @@
 %    entropy([1 0]) => 1
 
 function [result] = entropy(binary_targets)
+    % Workaround for log2(0) = NaN when all binary_targets are the same
     if all(binary_targets == binary_targets(1))
         result = 0;
         return;
     end
+    
     num_positive_examples = sum(binary_targets);
     num_examples = length(binary_targets);
     
