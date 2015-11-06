@@ -4,8 +4,10 @@
 %    entropy([1 0]) => 1
 
 function [result] = entropy(binary_targets)
+
+    % Base case and ...
     % Workaround for log2(0) = NaN when all binary_targets are the same
-    if all(binary_targets == binary_targets(1))
+    if isempty(binary_targets) || all(binary_targets == binary_targets(1))
         result = 0;
         return;
     end
