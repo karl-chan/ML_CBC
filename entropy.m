@@ -1,3 +1,7 @@
+% Entropy = - (P+) log_2 (P+) - (P-) log_2 (P-),
+%   where P+ is proportion of positive examples in example matrix.
+%   where P- is proportion of negative examples in example matrix.
+
 % Calculates the entropy given the binary_targets (vector of 0s and 1s)
 % Examples
 %    entropy([1 1]) => 0
@@ -5,8 +9,8 @@
 
 function [result] = entropy(binary_targets)
 
-    % Base case and ...
-    % Workaround for log2(0) = NaN when all binary_targets are the same
+    % If all examples are positive (or negative), we return entropy = 0.
+    % Return entropy = 0 if binary_targets is empty too.
     if isempty(binary_targets) || all(binary_targets == binary_targets(1))
         result = 0;
         return;
