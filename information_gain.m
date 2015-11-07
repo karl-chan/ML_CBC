@@ -1,17 +1,23 @@
-% Calculates the information gain (IG(examples, attribute))
+% Given matrix of examples and specified attribute, calculate information
+%   gain of that attribute.
 % Examples
 %   information_gain([1 0; 0 1], 1, [1, 0]) = 1
-function [ ret ] = information_gain( examples, attribute, binary_targets )
+function [gain] = information_gain(examples, attribute, binary_targets)
 
-    positive_examples_bitmap = (examples(:, attribute) == 1);
-    negative_examples_bitmap = ~positive_examples_bitmap;
+    % Extracts from example matrix, positive examples where attribute is 1.
+    % Creates a bitmap with either 1 or 0.
+    positive_examples = (examples(:, attribute) == 1);
     
-    total_count = size(examples, 1);
-    num_positive_examples = sum(positive_examples_bitmap);
-    num_negative_examples = sum(negative_examples_bitmap);
+    % Won't this mean that positive bitmap size and negative bitmap size
+    %   are the same?
+    negative_examples = ~positive_examples;
+    
+    num_total_examples = size(examples, 1);
+    num_positive_examples = sum(positive_examples);
+    num_negative_examples = sum(negative_examples);
         
-    ret = entropy(binary_targets) ...
-        - (num_positive_examples / total_count) * entropy(binary_targets(positive_examples_bitmap)) ...
-        - (num_negative_examples / total_count) * entropy(binary_targets(negative_examples_bitmap));
+    gain = entropy(binary_targets) ...
+        - (num_positive_examples / num_total_examples) * entropy(binary_targets(positive_examples)) ...
+        - (num_negative_examples / num_total_examples) * entropy(binary_targets(negative_examples));
 end
 
