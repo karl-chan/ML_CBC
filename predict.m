@@ -10,8 +10,8 @@ function [boolean] = predict(tree, test_example)
         return;
     end
     
-    transverse_left = test_example(tree.op) == 0;
-    if transverse_left
+    traverse_left = test_example(tree.op) == 0;
+    if traverse_left
         boolean = predict(tree.kids{1}, test_example);
     else
         boolean = predict(tree.kids{2}, test_example);        
