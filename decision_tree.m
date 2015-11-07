@@ -1,4 +1,4 @@
-% Load clean data from Matlab data (cleandata_students.mat)
+% Main file for creating decision tree.
 
 function[tree] = decision_tree(examples_matrix, attributes_vector, ...
                                    binary_targets)
@@ -39,7 +39,7 @@ function[tree] = decision_tree(examples_matrix, attributes_vector, ...
             examples_i = examples_matrix(indices, :);
 
             % Contains the classification (yes or no) of emotion in 
-            %   row of examples.
+            %   row of examples (returns either 0 or 1).
             binary_targets_i = binary_targets(indices);
 
             % If there is no example that has a particular value_attribute
