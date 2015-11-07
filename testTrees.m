@@ -7,10 +7,12 @@
 %   testTrees(T, [1 0 0 ... 0, 0 1 0 ... 0, ... ]) = [5, 3, ...]
 
 function [predictions] = testTrees(T, x2)
+    % Can we preallocate the size of predictions (which we know is N, 
+    %   number of rows in the x2 matrix.
+    % Then predictions(row_num, 1) = classification
     predictions = [];
  
-    % Loop through rows in x2 using the predict
-    % function on each tree
+    % Loop through rows in x2 using the predict function on each tree
    	for row_num = 1 : size(x2, 1)
         test_data_row = x2(row_num, :);
         classification = map_to_classification(T, test_data_row);
