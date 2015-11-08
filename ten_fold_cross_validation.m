@@ -20,7 +20,7 @@ function[tree] = ten_fold_cross_validation(examples_matrix, ...
         percent =  correct_count / size(test_set, 1) * 100;
         if best_percentage < percent
             tree = t;
-            best_percentage = percent
+            best_percentage = percent;
         end
     end     
 end

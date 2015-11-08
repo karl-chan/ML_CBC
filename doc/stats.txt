@@ -1,0 +1,35 @@
+1. Confusion matrix
+ - clean data
+   127     2     0     1     1     1
+     1   185     0     0    10     2
+     0     0   113     0     4     2
+     0     2     1   199    14     0
+    14    14    15     9    65    15
+     0     0     1     1     7   198
+     
+ - noisy data
+    27    10    21    12     9     9
+    41    52    21    23    31    19
+    34    14    68    27    23    21
+    24    15     8   132    17    13
+    23    15    28    15    20     9
+    11     6    21    11    17   154
+
+ 
+2. Avg classification rate
+ - clean data: 0.8835
+ - noisy data: 0.4525
+ 
+3. Avg recall rate
+ - clean data: 0.8694
+ - noisy data: 0.4103
+
+4. Avg precision rate
+ - clean data: 0.8624
+ - noisy data: 0.4159
+ 
+5. F1 measure
+ - clean data: 0.8659
+ - noisy data: 0.4131
+ 
+ 

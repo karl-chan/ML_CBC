@@ -4,6 +4,6 @@ function [ rate ] = classification_rate( matrix )
 %   total no. of examples (sum of matrix)
     total = sum(sum(matrix));
     correct = trace(matrix);
-    rate = total / correct;
+    rate = correct / total;
 end
 

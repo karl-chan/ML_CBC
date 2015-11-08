@@ -6,8 +6,8 @@ function [ matrix ] = confusion_matrix(size, predicted, actual)
     len = length(predicted);
     matrix = zeros(size);
     for n = 1:len
-        x = actual(:, n);
-        y = predicted(:, n);
+        x = actual(n, :);
+        y = predicted(n, :);
         matrix(x, y) = matrix(x, y) + 1;
     end
 end
