@@ -1,4 +1,4 @@
-function [predictions] = testTrees(T, x2)
+function [predictions] = testTrees2(T, x2)
     % Can we preallocate the size of predictions (which we know is N, 
     %   number of rows in the x2 matrix.
     % Then predictions(row_num, 1) = classification

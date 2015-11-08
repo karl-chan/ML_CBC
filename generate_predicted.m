@@ -1,6 +1,6 @@
 % Generates the predicted vector for use in confusion_matrix function
 
-function[T predicted] = generate_predicted(x, y)  
+function[predicted] = generate_predicted(x, y)  
     y1 = y == 1;
     y2 = y == 2;
     y3 = y == 3;
