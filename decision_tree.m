@@ -16,7 +16,7 @@ function[tree] = decision_tree(examples_matrix, attributes_vector, ...
         return;
     % If there is no more attribute to test for/classify
     elseif isempty(attributes_vector)
-        tree = []
+        tree = [];
         tree.op = [];
         tree.kids = [];
         tree.class = majority_value(binary_targets);
