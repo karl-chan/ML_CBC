@@ -22,7 +22,28 @@ function[tree] = ten_fold_cross_validation(examples_matrix, ...
             tree = t;
             best_percentage = percent;
         end
-    end     
+     end
+     counter_yes = 0;
+     counter_true = 0;
+     index = 1;
+     for row = examples_matrix'
+         if predict(tree, row)
+             counter_true = counter_true + binary_targets(index);
+             counter_yes = counter_yes + 1;
+         end
+         index = index + 1;
+     end
+     tree.prob_yes = counter_true/counter_yes;
+     counter_false = 0;
+     counter_no = size(examples_matrix,1) - counter_yes;
+     index = 1;
+     for row = examples_matrix'
+         if predict(tree, row) == 0
+             counter_false = counter_false + binary_targets(index);
+         end
+         index = index + 1;
+     end
+     tree.prob_false = counter_false/counter_no;
 end
 
 function [training_set test_set] = partition(examples_matrix, ith_partition)
