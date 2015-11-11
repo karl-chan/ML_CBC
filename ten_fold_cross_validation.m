@@ -1,35 +1,79 @@
-% Performs ten fold cross validation on a single classification (1 - 6)
-% tree
+% Performs ten fold cross validation and returns the confusion
+% matrix averaged over the 10 folds
 
-function[tree] = ten_fold_cross_validation(examples_matrix, ...
-                    attributes_vector, binary_targets)
-     tree = [];
-     best_percentage = 0;
+% method - boolean switch:
+%   0 - uses testTrees (randomised tie breaker method)
+%   1 - uses testTreesWithDepth (depth analysis method)
+%   2 - uses testTrees2
+
+function[avg_confusion_matrix] = ten_fold_cross_validation(x, y, method)
+
+     % Total number of emotions, which is 6 in our case
+     num_emotions = 6;
      
-     % Index variable to traverse through binary_targets
-     index = 1;
+     % Total number of folds, which is ten in our case
+     num_folds = 10; 
+     
+     % Attributes, vector of AU labels
+     attributes = 1 : 45;
+     
+     % Cumulative sum of all the confusion matrices to be evaluated
+     cum_sum_confusion_matrix = zeros(num_emotions);
      
      % Train and pick the best tree using 10-fold cross validation.
-     for i = 1 : 10
-        [training_set test_set] = partition(examples_matrix, i);
-        t = decision_tree(training_set, attributes_vector, binary_targets);
-        
-        correct_count = 0;
-        for row = test_set'
-           if predict(t, row) == binary_targets(index)
-               correct_count = correct_count + 1;
-           end
-           index = index + 1;
-        end
-        
-        % Picks best tree based on tree that has the highest proportion
-        %   of correctly classified examples.
-        percent =  correct_count / size(test_set, 1) * 100;
-        if best_percentage < percent
-            tree = t;
-            best_percentage = percent;
-        end
+     for i = 1 : num_folds  
+          T = [];
+          [training_x training_y test_x test_y] = partition(x, y, i);
+          for emotion = 1 : num_emotions
+              binary_targets = training_y == emotion;
+              tree = decision_tree(training_x, attributes, binary_targets);
+
+              % Number of times the tree classifies the row as true (1)
+             counter_yes = 0;
+
+             % Number of times the row in the matrix gives true (1)
+             counter_true = 0;
+
+             index = 1;
+             whole_binary_target = y == emotion;
+             for row = x'
+                 if predict(tree, row)
+                     counter_true = counter_true + whole_binary_target(index);
+                     counter_yes = counter_yes + 1;
+                 end
+                 index = index + 1;
+             end
+
+             tree.prob_yes = counter_true/counter_yes;
+
+             % Number of times the row in the matrix gives false (0)
+             counter_false = 0;
+
+             % Number of times the tree classifies the row as false
+             counter_no = size(x,1) - counter_yes;
+             index = 1;
+
+             for row = x'
+                 if predict(tree, row) == 0
+                     counter_false = counter_false + whole_binary_target(index);
+                 end
+                 index = index + 1;
+             end
+             tree.prob_false = counter_false/counter_no;
+          end
+          T = [T tree];
+          if method == 0
+              predictions = testTrees(T, test_x); 
+          elseif method == 1
+              predictions = testTreesWithDepth(T, test_x);
+          else 
+              predictions = testTrees2(T, test_x);
+          end
+          
+          cum_sum_confusion_matrix = cum_sum_confusion_matrix ...
+              + confusion_matrix(num_emotions, predictions, test_y);
      end
+     avg_confusion_matrix = cum_sum_confusion_matrix / num_folds;
      
      % Number of times the tree classifies the row as true (1)
      counter_yes = 0;
@@ -37,40 +81,19 @@ function[tree] = ten_fold_cross_validation(examples_matrix, ...
      % Number of times the row in the matrix gives true (1)
      counter_true = 0;
      
-     index = 1;
-     for row = examples_matrix'
-         if predict(tree, row)
-             counter_true = counter_true + binary_targets(index);
-             counter_yes = counter_yes + 1;
-         end
-         index = index + 1;
-     end
-     
-     tree.prob_yes = counter_true/counter_yes;
-     
-     % Number of times the row in the matrix gives false (0)
-     counter_false = 0;
-     
-     % Number of times the tree classifies the row as false
-     counter_no = size(examples_matrix,1) - counter_yes;
-     index = 1;
-     
-     for row = examples_matrix'
-         if predict(tree, row) == 0
-             counter_false = counter_false + binary_targets(index);
-         end
-         index = index + 1;
-     end
-     tree.prob_false = counter_false/counter_no;
 end
 
 % Helper function to split example matrix into test and training sets
-function [training_set test_set] = partition(examples_matrix, ith_partition)
+function [training_x training_y test_x test_y] = partition(examples_matrix, binary_targets, ith_partition)
     nrows = size(examples_matrix, 1);
     test_set_start_index = floor((ith_partition - 1) / 10 * nrows) + 1;
     test_set_end_index = floor(ith_partition / 10 * nrows);
-    test_set = examples_matrix(test_set_start_index:test_set_end_index, :);
+    range = test_set_start_index:test_set_end_index;
+    test_x = examples_matrix(range, :);
+    test_y = binary_targets(range);
     
-    training_set = examples_matrix;
-    training_set(test_set_start_index:test_set_end_index, :) = [];
+    training_x = examples_matrix;
+    training_y = binary_targets;
+    training_x(range, :) = [];
+    training_y(range) = [];
 end
