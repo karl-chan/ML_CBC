@@ -1,10 +1,10 @@
 function [result] = avg_recall_rate(matrix)
-    total = 0;
+    dim = size(matrix, 1);
+    result = zeros(1, dim);
     for n = 1:size(matrix, 1)
         row = matrix(n, :);
         tp = row(n);
         denom = sum(row);
-        total = total + tp/denom;
+        result(n) = tp/denom;
     end
-    result = total/size(matrix, 1);
 end
