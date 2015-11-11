@@ -2,8 +2,8 @@
 % matrix averaged over the 10 folds
 
 % method - boolean switch:
-%   0 - uses testTrees (randomised tie breaker method)
-%   1 - uses testTreesWithDepth (depth analysis method)
+%   0 - uses testTrees (depth analysis method)
+%   1 - uses testTreesRandom (randomised tie breaker method)
 %   2 - uses testTreesWithProbability (probability analysis method)
 
 function[avg_confusion_matrix] = ten_fold_cross_validation(x, y, method)
@@ -66,7 +66,7 @@ function[avg_confusion_matrix] = ten_fold_cross_validation(x, y, method)
           if method == 0
               predictions = testTrees(T, test_x); 
           elseif method == 1
-              predictions = testTreesWithDepth(T, test_x);
+              predictions = testTreesRandom(T, test_x);
           else 
               predictions = testTreesWithProbability(T, test_x);
           end
