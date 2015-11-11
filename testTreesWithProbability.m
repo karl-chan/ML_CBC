@@ -1,4 +1,4 @@
-function [predictions] = testTrees2(T, x2)
+function [predictions] = testTreesWithProbability(T, x2)
     % Can we preallocate the size of predictions (which we know is N, 
     %   number of rows in the x2 matrix.
     % Then predictions(row_num, 1) = classification
@@ -8,7 +8,7 @@ function [predictions] = testTrees2(T, x2)
    	for row_num = 1 : size(x2, 1)
         test_data_row = x2(row_num, :);
         classification = map_to_classification(T, test_data_row);
-        predictions = [predictions; classification];        
+        predictions = [predictions; classification];       
     end
 
 
