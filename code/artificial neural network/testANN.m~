@@ -1,0 +1,7 @@
+% Accepts as input network (net) and examples
+% (x2, same format as x) and produces a vector
+% of label predictions.
+function [predictions] = testANN(net, x2)
+    [predictions, ...] = sim(net, x2)
+
+end
