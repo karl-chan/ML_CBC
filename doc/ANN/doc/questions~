@@ -1,0 +1,15 @@
+1. Discuss how you obtained the optimal topology and optimal values of network parameters in Section VI. Describe the performance measure you used (and explain why you preferred it over other measures) and the different topologies / parameters you experimented with. Present the optimal parameters you found.
+
+First, we investigated the optimal number of hidden neurons for a single hidden layer. To do this, we initialised the number of hidden neurons in the hidden layer to five. We then partitioned the input matrix into ten partitions (nine parts training and one part validation). For each fold, using the ''create\_network" Matlab function, we trained a network using 100 epochs, and forced the test set to be empty. Then, using our ''testANN" function, we generated a set of values that the network predicts using the validation set. We then called our function ''confusion\_matrix" to generate the confusion matrix for this fold. For subsequent folds, the confusion\_matrix is added to the previous one.
+
+After the ten fold validation step is completed, we take the average confusion matrix and calculate the $F1$ measure using our function ''f1\_measure". This is concatenated to a ''results" vector.
+
+Next, we increased the number of hidden neurons by five to ten. The above steps are repeated and the $F1$ measure is added to the ''result" vector.
+
+We started the number of hidden neurons with 5, because ... We also ended the for loop with 50 hidden neurons so as to prevent overfitting.
+
+We found that for a single hidden layer, the optimal number of hidden neurons is 30.
+
+Next, we also investigated the optimal number of hidden neurons for two hidden layers. We assumed that the number of hidden neurons for each hidden layer is different. Thus, for this case, ''results" is a matrix, where each entry $x_{ij}$ represents the $F1$ measure for using $j$ neurons and $i$ neurons for the first and second hidden layers respectively. The 3D plot we obtained is given below. We found that for the first hidden layer, the optimal number of neurons is 15 and for the second layer, it is 20.
+
+Besides, any function can be approximated to arbitrary accuracy by a network of three layers of units (Mitchell book). Thus, we restricted our investigation to two hidden layers and one output layer. As such, we investigated 
