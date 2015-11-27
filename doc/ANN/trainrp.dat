@@ -22,6 +22,6 @@
     0.7987    0.8051    0.7996    0.8104    0.8198    0.4532    0.2619    0.7953    0.7931
     0.7959    0.7988    0.8033    0.8034    0.7983    0.8185    0.7475    0.4494    0.2551
 
-Optimal parameters: 	inc: 1.49, dec: 0.2 (delt_inc = 1.01:0.02:1.5, delt_dec = 0.1:0.1:0.9)
+Optimal parameters: 	inc: 1.11, dec: 0.5 (delt_inc = 1.01:0.02:1.5, delt_dec = 0.1:0.1:0.9)
 
-For fixed optimal parameters: optimal hidden neurons (single layer) is 25, F1 measure is 0.8107.
+For fixed optimal parameters: optimal hidden neurons (single layer) is 25, F1 measure is 0.8340.
