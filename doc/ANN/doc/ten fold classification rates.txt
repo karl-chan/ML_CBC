@@ -1,0 +1,16 @@
+DECISION TREE
+Clean data:
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.7500	0.6900	0.8020	0.7100	0.7921	0.7400	0.7600	0.7723	0.7500	0.7525
+
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.6900	0.6600	0.6000	0.5900	0.6600	0.6300	0.6500	0.5400	0.6200	0.6931
+=================================
+ANN (traingd lr=0.4, hidden neurons = 30)
+Clean data:
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.8700	0.7500	0.8317	0.7900	0.8218	0.8000	0.7700	0.8416	0.8000	0.9109
+
+Noisy data:
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.7200	0.6900	0.7100	0.7300	0.6600	0.7100	0.6500	0.7100	0.7300	0.8317
