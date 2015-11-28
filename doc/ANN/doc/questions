@@ -1,15 +1,89 @@
 1. Discuss how you obtained the optimal topology and optimal values of network parameters in Section VI. Describe the performance measure you used (and explain why you preferred it over other measures) and the different topologies / parameters you experimented with. Present the optimal parameters you found.
 
-First, we investigated the optimal number of hidden neurons for a single hidden layer. To do this, we initialised the number of hidden neurons in the hidden layer to five. We then partitioned the input matrix into ten partitions (nine parts training and one part validation). For each fold, using the ''create\_network" Matlab function, we trained a network using 100 epochs, and forced the test set to be empty. Then, using our ''testANN" function, we generated a set of values that the network predicts using the validation set. We then called our function ''confusion\_matrix" to generate the confusion matrix for this fold. For subsequent folds, the confusion\_matrix is added to the previous one.
+-------------------------
+Ideal performance measure
+-------------------------
+Throughout all the optimisation of our network parameters, we chose the $F1$ measure as our preferred performance measure. This is because the $F1$ measure is a good balance between the precision and recall rates.
 
-After the ten fold validation step is completed, we take the average confusion matrix and calculate the $F1$ measure using our function ''f1\_measure". This is concatenated to a ''results" vector.
+------------------------------------------------------
+Different topologies and parameters to be experimented
+------------------------------------------------------
+The obvious topology that we can start with is setting the number of hidden layers of the network to 1 (one hidden layer and one output layer), while varying the number of hidden neurons in the hidden layer. Next, we went further to investigate the optimal number of neurons in each hidden layer, for a network with 2 hidden layers. For the case of 2 hidden layers, we assumed that the number of hidden neurons in each layer is different.
 
-Next, we increased the number of hidden neurons by five to ten. The above steps are repeated and the $F1$ measure is added to the ''result" vector.
+We found that, for the case of only one hidden layer, the optimal number of hidden neurons for that layer is 30 (discussed below). Furthermore, we found out that our network produced better classification rate when we use one hidden layer rather than two (also discussed below). From the course materials, one hidden layer is often used to approximate boolean functions and two hidden layers are used instead to approximate arbitrary functions. We posit that the target function of our network is more similar to boolean functions. This will explain why a single hidden layer performs better in our case.
 
-We started the number of hidden neurons with 5, because ... We also ended the for loop with 50 hidden neurons so as to prevent overfitting.
+We proceeded to train our subsequent networks in part 2 with different training functions (described below). Because we found that a single layer of hidden neurons gave better performance, as described above, we investigated the optimal parameters for the subsequent training functions with one hidden layer with 30 hidden neurons. 
 
-We found that for a single hidden layer, the optimal number of hidden neurons is 30.
+We considered the fact that the topology of the network and the parameters of the training functions might be intrinsically dependent on each other. That is, the topology of the network might affect the results we get while varying the parameters of the training functions. However, due to time constraints, we thought that it would save us more time to fix the topology of the network (number of hidden layers and number of hidden layers) for part 2 (except for ''traingd").
 
-Next, we also investigated the optimal number of hidden neurons for two hidden layers. We assumed that the number of hidden neurons for each hidden layer is different. Thus, for this case, ''results" is a matrix, where each entry $x_{ij}$ represents the $F1$ measure for using $j$ neurons and $i$ neurons for the first and second hidden layers respectively. The 3D plot we obtained is given below. We found that for the first hidden layer, the optimal number of neurons is 15 and for the second layer, it is 20.
+--------------------------------------------------------
+Part 1: Levenberg-Marquardt Method - Single hidden layer
+--------------------------------------------------------
+The default training method for the ''feedforwardnet" function in Matlab is the Levenberg-Marquardt Method. First, we investigated the optimal number of hidden neurons for a single hidden layer. To do this, we initialised the number of hidden neurons in the hidden layer to five. 
 
-Besides, any function can be approximated to arbitrary accuracy by a network of three layers of units (Mitchell book). Thus, we restricted our investigation to two hidden layers and one output layer.
+We then partitioned the input matrix into ten partitions (nine parts training and one part validation). For each fold, using the ''create\_traingd"function that we wrote, which trains a network using the Gradient Descent approach with 1000 epochs. In the ''create\_traingd" function, we called the function ''feedforwardnet" set the training function of the resulting net as ''traingd". We also forced the test set to be empty by setting the divide function to '' divideind".
+
+Then, using our ''testANN" function, we generated a set of values that our network predicts using the validation set. We then called our function ''confusion\_matrix" to generate the confusion matrix for this fold. For subsequent folds, the confusion\_matrix is added to the previous one.
+
+After the ten fold validation step is completed, an average confusion matrix is obtained. This matrix is computed by dividing the aggregated matrix by ten. We then took the average confusion matrix and calculated the $F1$ measure using our function ''f1\_measure". This is concatenated to a ''results" vector. The reason behind us using the $F1$ measure instead of other performance measures like precision or recall, is that the $F1$ measure balances both precision and recall.
+
+Next, we increased the number of hidden neurons by five to ten. The above steps are repeated and the resulting $F1$ measure is added to the ''results" vector.
+
+We started the number of hidden neurons with 5. According to the lecture slides, this number is small enough to start with to have a sensible representation of our target function. We also ended the for loop with 50 hidden neurons so as to prevent overfitting.
+
+We found that for a single hidden layer, the optimal number of hidden neurons is 30, with an optimal $F1$ measure of 0.8213.
+
+---------------------------------------------------------
+Part 1: Levenberg-Marquardt Method - Double hidden layers
+---------------------------------------------------------
+Next, we also investigated the optimal number of hidden neurons for two hidden layers. We assumed that the number of hidden neurons for each hidden layer is different. Thus, for this case, ''results" is a matrix, where each entry $x_{ij}$ represents the $F1$ measure for using $j$ neurons and $i$ neurons for the first and second hidden layers respectively. The 3D plot we obtained is given below. We found that for the first hidden layer, the optimal number of neurons is 15 and for the second layer, it is 20. For this combination of hidden neurons, the optimal $F1$ measure is .....
+
+--------------------------------------------------
+Part 2: Gradient descent with different parameters
+--------------------------------------------------
+For reasons described above, we trained the different training functions with one hidden layer with 30 hidden neurons, while varying the parameters of the training functions. The only exception is the ''traingd" function, where we were able to vary the number of hidden neurons and learning rate at the same time. The optimal parameters are presented below.
+
+---------------------------------------------
+1. Gradient descent backpropagation (traingd)
+---------------------------------------------
+The optimal number of hidden neurons is 23, while the optimal learning rate is 0.2. This combination of parameters produced an optimal $F1$ measure of 0.8335.
+
+---------------------------------------------------------------------
+2. Gradient  descent  with  adaptive  learning  rate  backpropagation  (traingda)
+---------------------------------------------------------------------
+While fixing the number of hidden neurons to 30 for a single hidden layer, we investigated what the optimal learning rate, and the increase/decrease ratio of the learning rate are. Due to time constraints, we used the learning rates 0.1, 0.2, 0.3 and 0.4. We found that when the learning rate is 0.4, it produced the optimal ratios of $\delta_{inc} = 1.004$ and $\delta_{dec} = 0.4$. This combination produced an optimal $F1$ measure of 0.8176.
+
+The reason why the above learning rates were chosen was partly influenced by the optimal learning rate obtained for the ''traingd" function. We thought that the optimal learning rate for this function should lie close to 0.2 as well. Besides, from lectures, the learning rate of the network should be a small value, and the values that we chose are sufficiently small.
+
+------------------------------------------------------------
+3. Gradient descent with momentum backpropagation (traingdm)
+------------------------------------------------------------
+Similarly, we fixed the number of hidden neurons to 30 and the number of hidden layers to 1. We found that the optimal learning rate was 0.10 and the optimal momentum constant was 0.4. This combination of optimal parameters produced an optimal $F1$ measure of 0.8232.
+
+--------------------------------------
+4. Resilient backpropagation (trainrp)
+--------------------------------------
+For a fixed 30 hidden neurons in the single hidden layer, we found that the optimal increment to weight change (''delt\_inc") is 1.11 and the decrement to weight change is (''delt\_dec") is 0.5. These optimal parameters produced an optimal $F1$ measure of 0.8340.
+
+------------------------
+Function versus topology
+------------------------
+We managed to obtain plots of the topology of the network and its performance, while investigating the Levenberg-Marquardt Method and the Gradient Descent method. 
+
+For the Levenberg-Marquardt Method, we found that there is a sharp peak in $F1$ measure when the number of hidden neurons is 30. After 30, the performance decreases sharply. Similarly, when the number of hidden neurons is between 5 and 30, the performance of the network is lower than that when there are 30 hidden neurons. When there are too few hidden neurons, the network will not be able to model the target function accurately. This will result in a poor fit of the training data. On the other hand, when the number of hidden neurons is higher than optimal, overfitting will occur; the network will not be able to generalise well on unseen data.
+
+.........
+
+--------------------
+Avoiding overfitting
+--------------------
+According to the course material, overfitting in our network occurs when first, learning is performed for too long; second, the examples in the training set are not representative of all possible situations; third, the network we used is too complex. Thus, we can avoid overfitting by tackling any of the above reasons behind overfitting.
+
+For our
+
+the performance of the network on the validation set starts to increase. The default method provided by Matlab to avoid overfitting is to perform early stopping once the performance on the validation set falls below a threshold. We also note that the performance metric Matlab uses is the mean squared error.
+
+When the validation error increases for a specified number of iterations (net.trainParam.max_fail) the training is stopped.
+
+multiple neural networks, average output.
+retrain neural network
