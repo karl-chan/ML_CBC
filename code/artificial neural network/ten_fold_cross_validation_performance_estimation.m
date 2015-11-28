@@ -11,13 +11,13 @@ function[avg_confusion_matrix, best_net_so_far]= ten_fold_cross_validation_perfo
      
      % Train and pick the best tree using 10-fold cross validation.
      [x2, y2] = ANNdata(x, y);
-   
+ 
      cum_sum_confusion_matrix = zeros(6);         
      for i = 1 : 10 
-        [train_validation_idx, test_idx] = partition(i);
+        [train_validation_idx, test_idx] = partition(i, x2);
         [train_idx, validation_idx] = subpartition(train_validation_idx);
       
-        net = create_traingda(x, y, 2, 30, 10000, train_idx, validation_idx, [], 0.1, 1.31, 0.1);     
+        net = create_trainrp(x, y, 2, 23, 100000, train_idx, validation_idx, [], 0.4, 1.11, 0.5);
         predicted = testANN(net, x2(:, test_idx), @NNout2labels);
         curr_cfmat = confusion_matrix(6, predicted, y(test_idx));
         curr_f1 = mean(f1_measure(curr_cfmat));
