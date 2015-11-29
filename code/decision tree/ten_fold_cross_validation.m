@@ -70,7 +70,6 @@ function[avg_confusion_matrix] = ten_fold_cross_validation(x, y, method)
           else 
               predictions = testTreesWithProbability(T, test_x);
           end
-          
           cum_sum_confusion_matrix = cum_sum_confusion_matrix ...
               + confusion_matrix(num_emotions, predictions, test_y);
      end
