@@ -1,0 +1,50 @@
+Classification error
+
+DECISION TREE
+Clean data:
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.2500	0.3100	0.1980	0.2900	0.2079	0.2600	0.2400	0.2277	0.2500	0.2475
+
+Noisy data:
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.3100	0.3400	0.4000	0.4100	0.3400	0.3700	0.3500	0.4600	0.3800	0.3069
+=================================
+ANN 
+(traingd lr=0.2, hidden neurons = 30)
+Clean data:
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.1600	0.1900	0.1782	0.2200	0.1287	0.1700	0.2300	0.1386	0.1800	0.1386
+
+Noisy data:
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.2600	0.2800	0.3000	0.2300	0.3100	0.2900	0.3000	0.3100	0.2900	0.2277
+
+************************
+(traingda lr=0.4, lr_inc=1.004, lr_dec=0.4, hidden neurons = 30)
+Clean data:
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.1700	0.1700	0.1188	0.1700	0.1485	0.1700	0.2200	0.1782	0.2100	0.1683
+
+Noisy data:
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.3300	0.3000	0.3300	0.2800	0.2800	0.2900	0.3800	0.2800	0.3000	0.1782
+
+*************************
+(traingdm lr=0.1, mc=0.4, hidden neurons = 30)
+Clean data:
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.1400	0.2400	0.1485	0.2500	0.1584	0.2200	0.2300	0.1881	0.1900	0.0990
+
+Noisy data:
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.2700	0.2700	0.2400	0.2300	0.3000	0.2800	0.3200	0.2800	0.2200	0.2475
+
+*************************
+(traingrp lr=0.4, delt_inc=1.33, delt_dec= 0.6)
+Clean data:
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.1900	0.2200	0.1386	0.2200	0.1683	0.1800	0.1700	0.1287	0.1600	0.0990
+
+Noisy data:
+fold 1	fold 2	fold 3	fold 4	fold 5	fold 6	fold 7	fold 8	fold 9	fold10
+0.3400	0.3400	0.3100	0.2500	0.2300	0.2900	0.3200	0.3000	0.2800	0.1980

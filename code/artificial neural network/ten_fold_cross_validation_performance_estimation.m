@@ -17,14 +17,11 @@ function[avg_confusion_matrix, best_net_so_far]= ten_fold_cross_validation_perfo
         [train_validation_idx, test_idx] = partition(i, x2);
         [train_idx, validation_idx] = subpartition(train_validation_idx);
       
-        net = create_trainrp(x, y, 2, 30, 100000, train_idx, validation_idx, [], 0.4, 1.21, 0.6);
+        net = create_trainrp(x, y, 2, 30, 100000, train_idx, validation_idx, [], 0.4, 1.33, 0.6);
         predicted = testANN(net, x2(:, test_idx), @NNout2labels);
         curr_cfmat = confusion_matrix(6, predicted, y(test_idx));
         curr_f1 = mean(f1_measure(curr_cfmat));
-        if curr_f1 > best_f1_so_far
-           best_net_so_far = net;
-           best_f1_so_far = curr_f1;
-        end
+        classfication_error = 1 - avg_classification_rate(curr_cfmat)
         cum_sum_confusion_matrix = cum_sum_confusion_matrix + curr_cfmat;
      end  
      avg_confusion_matrix = cum_sum_confusion_matrix / 10;
